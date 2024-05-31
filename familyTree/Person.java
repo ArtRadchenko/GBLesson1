@@ -68,4 +68,24 @@ public class Person {
     public void addChild(Person child) {
         this.children.add(child);
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                ", isAlive=" + isAlive +
+                ", deathDate=" + (deathDate != null ? deathDate : "N/A") +
+                ", gender='" + gender + '\'' +
+                ", children=" + getChildrenNames() +
+                '}';
+    }
+
+    private String getChildrenNames() {
+        List<String> names = new ArrayList<>();
+        for (Person child : children) {
+            names.add(child.getName());
+        }
+        return String.join(", ", names);
+    }
 }

@@ -24,10 +24,13 @@ public class Main {
         jane.addChild(child1);
         jane.addChild(child2);
 
-        // Найдем и отредактируем персону
+        // Найдем и отредактируем персону затем покажем
         Person foundPerson = familyTree.findPersonByName("John");
         if (foundPerson != null) {
             familyTree.editPerson("John", LocalDate.of(1950, 1, 1), false, LocalDate.of(2020, 1, 1), "Male");
+            // Выведем обновленный статус Джона
+            System.out.println("Updated status of John:");
+            System.out.println(foundPerson);
         }
 
         // Найдем детей персоны
