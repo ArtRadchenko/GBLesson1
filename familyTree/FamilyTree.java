@@ -15,8 +15,8 @@ public class FamilyTree {
     public void addPerson(Person person) {
         this.people.add(person);
     }
-    
-   // Редактировать персону
+
+    // Редактировать персону
     public void editPerson(String name, LocalDate birthDate, boolean isAlive, LocalDate deathDate, String gender) {
         Person person = findPersonByName(name);
         if (person != null) {
@@ -35,5 +35,14 @@ public class FamilyTree {
             }
         }
         return null;
+    }
+
+    // Поиск детей персоны
+    public List<Person> findChildren(String parentName) {
+        Person parent = findPersonByName(parentName);
+        if (parent != null) {
+            return parent.getChildren();
+        }
+        return new ArrayList<>();
     }
 }
