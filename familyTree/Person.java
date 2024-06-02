@@ -1,16 +1,20 @@
 package familyTree;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Person {
+public class Person implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private LocalDate birthDate;
     private boolean isAlive;
     private LocalDate deathDate;
     private String gender;
     private List<Person> children;
+    private List<Person> partners;
 
     public Person(String name, LocalDate birthDate, boolean isAlive, String gender) {
         this.name = name;
@@ -18,6 +22,7 @@ public class Person {
         this.isAlive = isAlive;
         this.gender = gender;
         this.children = new ArrayList<>();
+        this.partners = new ArrayList<>();
     }
 
     // Геттеры и сеттеры
@@ -69,6 +74,14 @@ public class Person {
         this.children.add(child);
     }
 
+    public List<Person> getPartners() {
+        return partners;
+    }
+
+    public void addPartner(Person partner) {
+        this.partners.add(partner);
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -78,6 +91,7 @@ public class Person {
                 ", deathDate=" + (deathDate != null ? deathDate : "N/A") +
                 ", gender='" + gender + '\'' +
                 ", children=" + getChildrenNames() +
+                ", partners=" + getPartnersNames() +
                 '}';
     }
 
@@ -85,6 +99,14 @@ public class Person {
         List<String> names = new ArrayList<>();
         for (Person child : children) {
             names.add(child.getName());
+        }
+        return String.join(", ", names);
+    }
+
+    private String getPartnersNames() {
+        List<String> names = new ArrayList<>();
+        for (Person partner : partners) {
+            names.add(partner.getName());
         }
         return String.join(", ", names);
     }
