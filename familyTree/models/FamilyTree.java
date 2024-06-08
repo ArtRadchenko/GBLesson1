@@ -1,11 +1,13 @@
-package familyTree;
+package familyTree.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
-public class FamilyTree implements Serializable {
+public class FamilyTree implements Serializable, Iterable<Person> {
     private static final long serialVersionUID = 1L;
 
     private List<Person> people;
@@ -64,6 +66,21 @@ public class FamilyTree implements Serializable {
         if (parent != null) {
             parent.addChild(child);
         }
+    }
+
+    // Сортировка по имени
+    public void sortByName() {
+        Collections.sort(this.people);
+    }
+
+    // Сортировка по дате рождения
+    public void sortByBirthDate() {
+        this.people.sort((p1, p2) -> p1.getBirthDate().compareTo(p2.getBirthDate()));
+    }
+
+    @Override
+    public Iterator<Person> iterator() {
+        return people.iterator();
     }
 
     @Override

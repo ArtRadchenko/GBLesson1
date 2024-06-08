@@ -1,4 +1,6 @@
-package familyTree;
+package familyTree.services;
+
+import familyTree.models.FamilyTree;
 
 import java.io.IOException;
 

@@ -1,11 +1,11 @@
-package familyTree;
+package familyTree.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Person implements Serializable {
+public class Person implements Serializable, Comparable<Person> {
     private static final long serialVersionUID = 1L;
 
     private String name;
@@ -109,5 +109,10 @@ public class Person implements Serializable {
             names.add(partner.getName());
         }
         return String.join(", ", names);
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        return this.name.compareTo(other.name);
     }
 }

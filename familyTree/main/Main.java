@@ -1,4 +1,8 @@
-package familyTree;
+package familyTree.main;
+
+import familyTree.models.FamilyTree;
+import familyTree.models.Person;
+import familyTree.services.FileHandler;
 
 import java.time.LocalDate;
 import java.io.IOException;
@@ -43,6 +47,19 @@ public class Main {
         System.out.println("Дети Ивана:");
         for (Person child : familyTree.findChildren("Иван")) {
             System.out.println(child.getName());
+        }
+
+        // Сортировка и вывод
+        System.out.println("Семейное дерево отсортировано по имени:");
+        familyTree.sortByName();
+        for (Person person : familyTree) {
+            System.out.println(person);
+        }
+
+        System.out.println("Семейное дерево отсортировано по дате рождения:");
+        familyTree.sortByBirthDate();
+        for (Person person : familyTree) {
+            System.out.println(person);
         }
 
         // Сохранение в файл
