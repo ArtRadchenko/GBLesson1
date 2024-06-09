@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Person implements Serializable, Comparable<Person> {
+public class Person implements FamilyTreeElement<Person>, Serializable, Comparable<Person> {
     private static final long serialVersionUID = 1L;
 
     private String name;
@@ -25,7 +25,8 @@ public class Person implements Serializable, Comparable<Person> {
         this.partners = new ArrayList<>();
     }
 
-    // Геттеры и сеттеры
+    // Реализация методов интерфейса FamilyTreeElement
+    @Override
     public String getName() {
         return name;
     }
@@ -34,26 +35,32 @@ public class Person implements Serializable, Comparable<Person> {
         this.name = name;
     }
 
+    @Override
     public LocalDate getBirthDate() {
         return birthDate;
     }
 
+    @Override
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
+    @Override
     public boolean isAlive() {
         return isAlive;
     }
 
+    @Override
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
     }
 
+    @Override
     public LocalDate getDeathDate() {
         return deathDate;
     }
 
+    @Override
     public void setDeathDate(LocalDate deathDate) {
         this.deathDate = deathDate;
     }
@@ -66,18 +73,22 @@ public class Person implements Serializable, Comparable<Person> {
         this.gender = gender;
     }
 
+    @Override
     public List<Person> getChildren() {
         return children;
     }
 
+    @Override
     public void addChild(Person child) {
         this.children.add(child);
     }
 
+    @Override
     public List<Person> getPartners() {
         return partners;
     }
 
+    @Override
     public void addPartner(Person partner) {
         this.partners.add(partner);
     }

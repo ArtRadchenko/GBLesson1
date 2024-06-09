@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        FamilyTree familyTree = new FamilyTree();
+        FamilyTree<Person> familyTree = new FamilyTree<>();
 
         // Создание персонажей
         Person иван = new Person("Иван", LocalDate.of(1950, 1, 1), true, "Мужской");
@@ -20,12 +20,12 @@ public class Main {
         Person дмитрий = new Person("Дмитрий", LocalDate.of(1982, 6, 6), true, "Мужской");
 
         // Добавление персонажей в семейное дерево
-        familyTree.addPerson(иван);
-        familyTree.addPerson(мария);
-        familyTree.addPerson(наталья);
-        familyTree.addPerson(алексей);
-        familyTree.addPerson(екатерина);
-        familyTree.addPerson(дмитрий);
+        familyTree.addElement(иван);
+        familyTree.addElement(мария);
+        familyTree.addElement(наталья);
+        familyTree.addElement(алексей);
+        familyTree.addElement(екатерина);
+        familyTree.addElement(дмитрий);
 
         // Добавление партнеров
         familyTree.addPartner("Иван", мария);
@@ -36,9 +36,9 @@ public class Main {
         familyTree.addChild("Иван", екатерина); // Ребенок от Натальи
 
         // Вывод обновленного статуса Ивана
-        Person найденныйИван = familyTree.findPersonByName("Иван");
+        Person найденныйИван = familyTree.findElementByName("Иван");
         if (найденныйИван != null) {
-            familyTree.editPerson("Иван", LocalDate.of(1950, 1, 1), false, LocalDate.of(2020, 1, 1), "Мужской");
+            familyTree.editElement("Иван", LocalDate.of(1950, 1, 1), false, LocalDate.of(2020, 1, 1));
             System.out.println("Обновленный статус Ивана:");
             System.out.println(найденныйИван);
         }
@@ -63,13 +63,13 @@ public class Main {
         }
 
         // Сохранение в файл
-        FileHandler fileHandler = new FileHandler();
+        FileHandler<Person> fileHandler = new FileHandler<>();
         try {
             fileHandler.saveToFile("familyTree.dat", familyTree);
             System.out.println("Семейное дерево сохранено в файл.");
 
             // Загрузка из файла
-            FamilyTree загруженноеДерево = fileHandler.loadFromFile("familyTree.dat");
+            FamilyTree<Person> загруженноеДерево = fileHandler.loadFromFile("familyTree.dat");
             System.out.println("Загруженное семейное дерево из файла:");
             System.out.println(загруженноеДерево);
         } catch (IOException | ClassNotFoundException e) {

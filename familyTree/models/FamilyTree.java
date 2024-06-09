@@ -7,62 +7,61 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class FamilyTree implements Serializable, Iterable<Person> {
+public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implements Serializable, Iterable<T> {
     private static final long serialVersionUID = 1L;
 
-    private List<Person> people;
+    private List<T> elements;
 
     public FamilyTree() {
-        this.people = new ArrayList<>();
+        this.elements = new ArrayList<>();
     }
 
-    // Добавление человека в дерево
-    public void addPerson(Person person) {
-        this.people.add(person);
+    // Добавление элемента в дерево
+    public void addElement(T element) {
+        this.elements.add(element);
     }
 
-    // Редактирование данных человека
-    public void editPerson(String name, LocalDate birthDate, boolean isAlive, LocalDate deathDate, String gender) {
-        Person person = findPersonByName(name);
-        if (person != null) {
-            person.setBirthDate(birthDate);
-            person.setAlive(isAlive);
-            person.setDeathDate(deathDate);
-            person.setGender(gender);
+    // Редактирование данных элемента
+    public void editElement(String name, LocalDate birthDate, boolean isAlive, LocalDate deathDate) {
+        T element = findElementByName(name);
+        if (element != null) {
+            element.setBirthDate(birthDate);
+            element.setAlive(isAlive);
+            element.setDeathDate(deathDate);
         }
     }
 
-    // Поиск человека по имени
-    public Person findPersonByName(String name) {
-        for (Person person : people) {
-            if (person.getName().equalsIgnoreCase(name)) {
-                return person;
+    // Поиск элемента по имени
+    public T findElementByName(String name) {
+        for (T element : elements) {
+            if (element.getName().equalsIgnoreCase(name)) {
+                return element;
             }
         }
         return null;
     }
 
-    // Поиск всех детей человека
-    public List<Person> findChildren(String parentName) {
-        Person parent = findPersonByName(parentName);
+    // Поиск всех детей элемента
+    public List<T> findChildren(String parentName) {
+        T parent = findElementByName(parentName);
         if (parent != null) {
             return parent.getChildren();
         }
         return new ArrayList<>();
     }
 
-    // Добавление партнера к человеку
-    public void addPartner(String personName, Person partner) {
-        Person person = findPersonByName(personName);
-        if (person != null) {
-            person.addPartner(partner);
-            partner.addPartner(person); // Также добавляем обратную связь
+    // Добавление партнера к элементу
+    public void addPartner(String elementName, T partner) {
+        T element = findElementByName(elementName);
+        if (element != null) {
+            element.addPartner(partner);
+            partner.addPartner(element); // Также добавляем обратную связь
         }
     }
 
-    // Добавление ребенка к человеку
-    public void addChild(String parentName, Person child) {
-        Person parent = findPersonByName(parentName);
+    // Добавление ребенка к элементу
+    public void addChild(String parentName, T child) {
+        T parent = findElementByName(parentName);
         if (parent != null) {
             parent.addChild(child);
         }
@@ -70,23 +69,23 @@ public class FamilyTree implements Serializable, Iterable<Person> {
 
     // Сортировка по имени
     public void sortByName() {
-        Collections.sort(this.people);
+        Collections.sort(this.elements);
     }
 
     // Сортировка по дате рождения
     public void sortByBirthDate() {
-        this.people.sort((p1, p2) -> p1.getBirthDate().compareTo(p2.getBirthDate()));
+        this.elements.sort((e1, e2) -> e1.getBirthDate().compareTo(e2.getBirthDate()));
     }
 
     @Override
-    public Iterator<Person> iterator() {
-        return people.iterator();
+    public Iterator<T> iterator() {
+        return elements.iterator();
     }
 
     @Override
     public String toString() {
         return "FamilyTree{" +
-                "people=" + people +
+                "elements=" + elements +
                 '}';
     }
 }
