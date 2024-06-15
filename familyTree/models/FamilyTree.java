@@ -88,4 +88,5 @@ public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implemen
                 "elements=" + elements +
                 '}';
     }
+    
 }
