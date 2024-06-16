@@ -25,7 +25,6 @@ public class Person implements FamilyTreeElement<Person>, Serializable, Comparab
         this.partners = new ArrayList<>();
     }
 
-    // Реализация методов интерфейса FamilyTreeElement
     @Override
     public String getName() {
         return name;

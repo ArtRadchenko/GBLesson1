@@ -6,7 +6,7 @@ import java.util.List;
 public interface FamilyTreeElement<T> {
     String getName();
     LocalDate getBirthDate();
-    void setBirthDate(LocalDate birthDate);  // Добавляем этот метод
+    void setBirthDate(LocalDate birthDate);
     void addChild(T child);
     List<T> getChildren();
     void addPartner(T partner);

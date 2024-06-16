@@ -1,23 +1,19 @@
 package familyTree.services;
 
-import familyTree.models.FamilyTree;
-import familyTree.models.FamilyTreeElement;
-
 import java.io.*;
 
-public class FileHandler<T extends FamilyTreeElement<T> & Comparable<T> & Serializable> implements FileOperations<T> {
-
+public class FileHandler<T> implements FileOperations<T> {
     @Override
-    public void saveToFile(String filename, FamilyTree<T> familyTree) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
-            oos.writeObject(familyTree);
+    public void saveToFile(T object, String fileName) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(object);
         }
     }
 
     @Override
-    public FamilyTree<T> loadFromFile(String filename) throws IOException, ClassNotFoundException {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
-            return (FamilyTree<T>) ois.readObject();
+    public T loadFromFile(String fileName) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (T) ois.readObject();
         }
     }
 }

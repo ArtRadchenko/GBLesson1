@@ -9,19 +9,16 @@ import java.util.List;
 
 public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implements Serializable, Iterable<T> {
     private static final long serialVersionUID = 1L;
-
     private List<T> elements;
 
     public FamilyTree() {
         this.elements = new ArrayList<>();
     }
 
-    // Добавление элемента в дерево
     public void addElement(T element) {
         this.elements.add(element);
     }
 
-    // Редактирование данных элемента
     public void editElement(String name, LocalDate birthDate, boolean isAlive, LocalDate deathDate) {
         T element = findElementByName(name);
         if (element != null) {
@@ -31,7 +28,6 @@ public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implemen
         }
     }
 
-    // Поиск элемента по имени
     public T findElementByName(String name) {
         for (T element : elements) {
             if (element.getName().equalsIgnoreCase(name)) {
@@ -41,7 +37,6 @@ public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implemen
         return null;
     }
 
-    // Поиск всех детей элемента
     public List<T> findChildren(String parentName) {
         T parent = findElementByName(parentName);
         if (parent != null) {
@@ -50,16 +45,14 @@ public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implemen
         return new ArrayList<>();
     }
 
-    // Добавление партнера к элементу
     public void addPartner(String elementName, T partner) {
         T element = findElementByName(elementName);
         if (element != null) {
             element.addPartner(partner);
-            partner.addPartner(element); // Также добавляем обратную связь
+            partner.addPartner(element);
         }
     }
 
-    // Добавление ребенка к элементу
     public void addChild(String parentName, T child) {
         T parent = findElementByName(parentName);
         if (parent != null) {
@@ -67,12 +60,10 @@ public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implemen
         }
     }
 
-    // Сортировка по имени
     public void sortByName() {
         Collections.sort(this.elements);
     }
 
-    // Сортировка по дате рождения
     public void sortByBirthDate() {
         this.elements.sort((e1, e2) -> e1.getBirthDate().compareTo(e2.getBirthDate()));
     }
@@ -88,5 +79,4 @@ public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implemen
                 "elements=" + elements +
                 '}';
     }
-    
 }

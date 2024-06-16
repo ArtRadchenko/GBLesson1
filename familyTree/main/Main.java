@@ -4,21 +4,17 @@ import familyTree.models.FamilyTree;
 import familyTree.models.Person;
 import familyTree.presenters.FamilyTreePresenter;
 import familyTree.services.FileHandler;
+import familyTree.services.FamilyTreeService;
 import familyTree.views.FamilyTreeView;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        FamilyTree<Person> model = new FamilyTree<>();
+        FamilyTree<Person> familyTree = new FamilyTree<>();
+        FileHandler<FamilyTree<Person>> fileHandler = new FileHandler<>();
+        FamilyTreeService<Person> familyTreeService = new FamilyTreeService<>(familyTree, fileHandler);
         FamilyTreeView view = new FamilyTreeView();
-        FamilyTreePresenter presenter = new FamilyTreePresenter(model, view);
+        FamilyTreePresenter presenter = new FamilyTreePresenter(familyTreeService, view);
 
-        view.setPresenter(presenter);
-
-        // Запуск основного цикла обработки команд пользователя
-        view.run();
+        presenter.start();
     }
 }
