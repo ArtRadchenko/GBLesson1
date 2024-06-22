@@ -7,24 +7,21 @@ import familyTree.views.FamilyTreeView;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Scanner;
 
 public class FamilyTreePresenter {
     private FamilyTreeService<Person> familyTreeService;
     private FamilyTreeView view;
-    private Scanner scanner;
 
     public FamilyTreePresenter(FamilyTreeService<Person> familyTreeService, FamilyTreeView view) {
         this.familyTreeService = familyTreeService;
         this.view = view;
-        this.scanner = new Scanner(System.in);
     }
 
     public void start() {
         boolean running = true;
         while (running) {
             view.displayMenu();
-            String choice = scanner.nextLine();
+            String choice = view.getInput();
 
             switch (choice) {
                 case "1":
@@ -67,30 +64,21 @@ public class FamilyTreePresenter {
     }
 
     private void addElement() {
-        view.displayMessage("Введите имя:");
-        String name = scanner.nextLine();
-        view.displayMessage("Введите дату рождения (YYYY-MM-DD):");
-        LocalDate birthDate = LocalDate.parse(scanner.nextLine());
-        view.displayMessage("Жив ли персонаж (true/false):");
-        boolean isAlive = Boolean.parseBoolean(scanner.nextLine());
-        view.displayMessage("Введите пол:");
-        String gender = scanner.nextLine();
+        String name = view.getInput("Введите имя:");
+        LocalDate birthDate = LocalDate.parse(view.getInput("Введите дату рождения (YYYY-MM-DD):"));
+        boolean isAlive = Boolean.parseBoolean(view.getInput("Жив ли персонаж (true/false):"));
+        String gender = view.getInput("Введите пол:");
 
-        Person person = new Person(name, birthDate, isAlive, gender);
-        familyTreeService.addElement(person);
+        familyTreeService.addElement(name, birthDate, isAlive, gender);
         view.displayMessage("Персонаж добавлен.");
     }
 
     private void editElement() {
-        view.displayMessage("Введите имя персонажа для редактирования:");
-        String name = scanner.nextLine();
-        view.displayMessage("Введите новую дату рождения (YYYY-MM-DD):");
-        LocalDate birthDate = LocalDate.parse(scanner.nextLine());
-        view.displayMessage("Жив ли персонаж (true/false):");
-        boolean isAlive = Boolean.parseBoolean(scanner.nextLine());
-        view.displayMessage("Введите дату смерти (YYYY-MM-DD), если применимо:");
+        String name = view.getInput("Введите имя персонажа для редактирования:");
+        LocalDate birthDate = LocalDate.parse(view.getInput("Введите новую дату рождения (YYYY-MM-DD):"));
+        boolean isAlive = Boolean.parseBoolean(view.getInput("Жив ли персонаж (true/false):"));
         LocalDate deathDate = null;
-        String deathDateString = scanner.nextLine();
+        String deathDateString = view.getInput("Введите дату смерти (YYYY-MM-DD), если применимо:");
         if (!deathDateString.isEmpty()) {
             deathDate = LocalDate.parse(deathDateString);
         }
@@ -100,8 +88,7 @@ public class FamilyTreePresenter {
     }
 
     private void findElementByName() {
-        view.displayMessage("Введите имя персонажа:");
-        String name = scanner.nextLine();
+        String name = view.getInput("Введите имя персонажа:");
         Person person = familyTreeService.findElementByName(name);
         if (person != null) {
             view.displayMessage("Найденный персонаж: " + person);
@@ -111,8 +98,7 @@ public class FamilyTreePresenter {
     }
 
     private void findChildren() {
-        view.displayMessage("Введите имя родителя:");
-        String name = scanner.nextLine();
+        String name = view.getInput("Введите имя родителя:");
         List<Person> children = familyTreeService.findChildren(name);
         if (!children.isEmpty()) {
             view.displayMessage("Дети: " + children);
@@ -122,10 +108,8 @@ public class FamilyTreePresenter {
     }
 
     private void addPartner() {
-        view.displayMessage("Введите имя персонажа:");
-        String name = scanner.nextLine();
-        view.displayMessage("Введите имя партнера:");
-        String partnerName = scanner.nextLine();
+        String name = view.getInput("Введите имя персонажа:");
+        String partnerName = view.getInput("Введите имя партнера:");
 
         Person partner = familyTreeService.findElementByName(partnerName);
         if (partner != null) {
@@ -137,19 +121,13 @@ public class FamilyTreePresenter {
     }
 
     private void addChild() {
-        view.displayMessage("Введите имя родителя:");
-        String parentName = scanner.nextLine();
-        view.displayMessage("Введите имя ребенка:");
-        String childName = scanner.nextLine();
-        view.displayMessage("Введите дату рождения ребенка (YYYY-MM-DD):");
-        LocalDate birthDate = LocalDate.parse(scanner.nextLine());
-        view.displayMessage("Жив ли ребенок (true/false):");
-        boolean isAlive = Boolean.parseBoolean(scanner.nextLine());
-        view.displayMessage("Введите пол ребенка:");
-        String gender = scanner.nextLine();
+        String parentName = view.getInput("Введите имя родителя:");
+        String childName = view.getInput("Введите имя ребенка:");
+        LocalDate birthDate = LocalDate.parse(view.getInput("Введите дату рождения ребенка (YYYY-MM-DD):"));
+        boolean isAlive = Boolean.parseBoolean(view.getInput("Жив ли ребенок (true/false):"));
+        String gender = view.getInput("Введите пол ребенка:");
 
-        Person child = new Person(childName, birthDate, isAlive, gender);
-        familyTreeService.addChild(parentName, child);
+        familyTreeService.addChild(parentName, childName, birthDate, isAlive, gender);
         view.displayMessage("Ребенок добавлен.");
     }
 
@@ -164,8 +142,7 @@ public class FamilyTreePresenter {
     }
 
     private void saveToFile() {
-        view.displayMessage("Введите имя файла для сохранения:");
-        String fileName = scanner.nextLine();
+        String fileName = view.getInput("Введите имя файла для сохранения:");
         try {
             familyTreeService.saveToFile(fileName);
             view.displayMessage("Древо сохранено в файл.");
@@ -175,8 +152,7 @@ public class FamilyTreePresenter {
     }
 
     private void loadFromFile() {
-        view.displayMessage("Введите имя файла для загрузки:");
-        String fileName = scanner.nextLine();
+        String fileName = view.getInput("Введите имя файла для загрузки:");
         try {
             familyTreeService.loadFromFile(fileName);
             view.displayMessage("Древо загружено из файла.");

@@ -16,8 +16,8 @@ public class FamilyTreeService<T extends FamilyTreeElement<T> & Comparable<T>> {
         this.fileHandler = fileHandler;
     }
 
-    public void addElement(T element) {
-        familyTree.addElement(element);
+    public void addElement(String name, LocalDate birthDate, boolean isAlive, String gender) {
+        familyTree.addElement(name, birthDate, isAlive, gender);
     }
 
     public void editElement(String name, LocalDate birthDate, boolean isAlive, LocalDate deathDate) {
@@ -36,8 +36,8 @@ public class FamilyTreeService<T extends FamilyTreeElement<T> & Comparable<T>> {
         familyTree.addPartner(elementName, partner);
     }
 
-    public void addChild(String parentName, T child) {
-        familyTree.addChild(parentName, child);
+    public void addChild(String parentName, String childName, LocalDate birthDate, boolean isAlive, String gender) {
+        familyTree.addChild(parentName, childName, birthDate, isAlive, gender);
     }
 
     public void sortByName() {
@@ -53,10 +53,6 @@ public class FamilyTreeService<T extends FamilyTreeElement<T> & Comparable<T>> {
     }
 
     public void loadFromFile(String fileName) throws IOException, ClassNotFoundException {
-        this.familyTree = fileHandler.loadFromFile(fileName);
-    }
-
-    public FamilyTree<T> getFamilyTree() {
-        return familyTree;
+        familyTree = fileHandler.loadFromFile(fileName);
     }
 }

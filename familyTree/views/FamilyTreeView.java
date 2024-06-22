@@ -1,6 +1,14 @@
 package familyTree.views;
 
+import java.util.Scanner;
+
 public class FamilyTreeView {
+    private Scanner scanner;
+
+    public FamilyTreeView() {
+        this.scanner = new Scanner(System.in);
+    }
+
     public void displayMenu() {
         System.out.println("Меню:");
         System.out.println("1. Добавить персонажа");
@@ -15,6 +23,15 @@ public class FamilyTreeView {
         System.out.println("10. Загрузить древо из файла");
         System.out.println("0. Выход");
         System.out.print("Выберите опцию: ");
+    }
+
+    public String getInput() {
+        return scanner.nextLine();
+    }
+
+    public String getInput(String message) {
+        System.out.print(message);
+        return scanner.nextLine();
     }
 
     public void displayMessage(String message) {

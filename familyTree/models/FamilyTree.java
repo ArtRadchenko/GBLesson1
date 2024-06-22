@@ -15,7 +15,8 @@ public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implemen
         this.elements = new ArrayList<>();
     }
 
-    public void addElement(T element) {
+    public void addElement(String name, LocalDate birthDate, boolean isAlive, String gender) {
+        T element = createElement(name, birthDate, isAlive, gender);
         this.elements.add(element);
     }
 
@@ -53,11 +54,17 @@ public class FamilyTree<T extends FamilyTreeElement<T> & Comparable<T>> implemen
         }
     }
 
-    public void addChild(String parentName, T child) {
+    public void addChild(String parentName, String childName, LocalDate birthDate, boolean isAlive, String gender) {
         T parent = findElementByName(parentName);
         if (parent != null) {
+            T child = createElement(childName, birthDate, isAlive, gender);
             parent.addChild(child);
+            this.elements.add(child);
         }
+    }
+
+    protected T createElement(String name, LocalDate birthDate, boolean isAlive, String gender) {
+        return (T) new Person(name, birthDate, isAlive, gender);
     }
 
     public void sortByName() {
